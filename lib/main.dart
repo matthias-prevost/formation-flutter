@@ -65,13 +65,45 @@ class MyHomePage extends StatelessWidget {
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: CocktailDetail(
-              name: "Margarita",
-              instructions:
-                  "Rub the rim of the glass with the lime slice to make the salt stick to it. Take care to moisten only the outer rim and sprinkle the salt on it. The salt should present to the lips of the imbiber and never mix into the cocktail. Shake the other ingredients with ice, then carefully pour into the glass.",
-              imageURL:
-                  "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg")),
+          child: CocktailList(cocktails: [
+        Cocktail(
+            name: "Margarita",
+            imageURL:
+                "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg")
+      ])),
     );
+  }
+}
+
+class Cocktail {
+  const Cocktail({required this.name, required this.imageURL});
+
+  final String name;
+  final String imageURL;
+}
+
+class CocktailList extends StatefulWidget {
+  const CocktailList({super.key, required this.cocktails});
+
+  final List<Cocktail> cocktails;
+
+  @override
+  State<CocktailList> createState() => _CocktailListState();
+}
+
+class _CocktailListState extends State<CocktailList> {
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+        itemCount: widget.cocktails.length,
+        itemBuilder: (context, index) {
+          return Container(
+              child: ListTile(
+                title: Text(widget.cocktails[index].name),
+                leading: Image.network(widget.cocktails[index].imageURL),
+              ),
+              padding: EdgeInsets.only(top: 12, bottom: 12));
+        });
   }
 }
 
