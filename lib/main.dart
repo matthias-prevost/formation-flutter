@@ -102,22 +102,25 @@ class CocktailDetail extends StatefulWidget {
 class _CocktailDetailState extends State<CocktailDetail> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+            padding: EdgeInsets.all(24),
+            child: Text(
               widget.name,
               style: Theme.of(context).textTheme.headlineLarge,
-            ),
-            Text(
-              widget.instructions,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          ],
-        ),
-      ),
+              textAlign: TextAlign.center,
+            )),
+        Image.network(widget.imageURL),
+        Padding(
+          padding: EdgeInsets.all(16),
+          child: Text(
+            widget.instructions,
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        )
+      ],
     );
   }
 }
