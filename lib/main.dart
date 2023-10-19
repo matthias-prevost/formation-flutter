@@ -78,6 +78,9 @@ class _CocktailListState extends State<CocktailList> {
         future: futureCocktails,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            if (snapshot.data!.isEmpty) {
+              return Center(child: Text('No cocktails found'));
+            }
             return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
