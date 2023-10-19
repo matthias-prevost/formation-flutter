@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project0/infra/cocktails.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,21 +14,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -65,45 +51,56 @@ class MyHomePage extends StatelessWidget {
       body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
-          child: CocktailList(cocktails: [
-        Cocktail(
-            name: "Margarita",
-            imageURL:
-                "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg")
-      ])),
+          child: CocktailList()),
     );
   }
 }
 
-class Cocktail {
-  const Cocktail({required this.name, required this.imageURL});
-
-  final String name;
-  final String imageURL;
-}
-
 class CocktailList extends StatefulWidget {
-  const CocktailList({super.key, required this.cocktails});
-
-  final List<Cocktail> cocktails;
+  const CocktailList({super.key});
 
   @override
   State<CocktailList> createState() => _CocktailListState();
 }
 
 class _CocktailListState extends State<CocktailList> {
+  late Future<List<Cocktail>> futureCocktails;
+
+  @override
+  void initState() {
+    super.initState();
+    futureCocktails = fetchCocktails();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-        itemCount: widget.cocktails.length,
-        itemBuilder: (context, index) {
-          return Container(
-              child: ListTile(
-                title: Text(widget.cocktails[index].name),
-                leading: Image.network(widget.cocktails[index].imageURL),
-              ),
-              padding: EdgeInsets.only(top: 12, bottom: 12));
-        });
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: FutureBuilder(
+          future: futureCocktails,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return Center(child: Text('No cocktails found'));
+              }
+              return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                        child: ListTile(
+                          title: Text(snapshot.data![index].name),
+                          leading:
+                              Image.network(snapshot.data![index].imageURL),
+                        ),
+                        padding: EdgeInsets.only(top: 12, bottom: 12));
+                  });
+            }
+            if (snapshot.hasError) {
+              return Center(child: Text('An error occurred'));
+            }
+            return const CircularProgressIndicator();
+          }),
+    );
   }
 }
 
