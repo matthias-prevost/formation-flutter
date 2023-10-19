@@ -74,29 +74,33 @@ class _CocktailListState extends State<CocktailList> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: futureCocktails,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.isEmpty) {
-              return Center(child: Text('No cocktails found'));
+    return Directionality(
+      textDirection: TextDirection.ltr,
+      child: FutureBuilder(
+          future: futureCocktails,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              if (snapshot.data!.isEmpty) {
+                return Center(child: Text('No cocktails found'));
+              }
+              return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return Container(
+                        child: ListTile(
+                          title: Text(snapshot.data![index].name),
+                          leading:
+                              Image.network(snapshot.data![index].imageURL),
+                        ),
+                        padding: EdgeInsets.only(top: 12, bottom: 12));
+                  });
             }
-            return ListView.builder(
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return Container(
-                      child: ListTile(
-                        title: Text(snapshot.data![index].name),
-                        leading: Image.network(snapshot.data![index].imageURL),
-                      ),
-                      padding: EdgeInsets.only(top: 12, bottom: 12));
-                });
-          }
-          if (snapshot.hasError) {
-            return Center(child: Text('${snapshot.error}'));
-          }
-          return const CircularProgressIndicator();
-        });
+            if (snapshot.hasError) {
+              return Center(child: Text('An error occurred'));
+            }
+            return const CircularProgressIndicator();
+          }),
+    );
   }
 }
 
