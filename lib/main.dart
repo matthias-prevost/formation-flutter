@@ -11,13 +11,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
+    return GestureDetector(
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'La banque des cocktails'),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
@@ -25,33 +28,16 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatelessWidget {
   const MyHomePage({super.key, required this.title});
 
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(title),
       ),
-      body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: CocktailList()),
+      body: Center(child: CocktailList()),
     );
   }
 }
@@ -76,30 +62,45 @@ class _CocktailListState extends State<CocktailList> {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.ltr,
-      child: FutureBuilder(
-          future: futureCocktails,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data!.isEmpty) {
-                return Center(child: Text('No cocktails found'));
-              }
-              return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        child: ListTile(
-                          title: Text(snapshot.data![index].name),
-                          leading:
-                              Image.network(snapshot.data![index].imageURL),
-                        ),
-                        padding: EdgeInsets.only(top: 12, bottom: 12));
-                  });
-            }
-            if (snapshot.hasError) {
-              return Center(child: Text('An error occurred'));
-            }
-            return const CircularProgressIndicator();
-          }),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Chercher un cocktail',
+              ),
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+                future: futureCocktails,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    if (snapshot.data!.isEmpty) {
+                      return Center(child: Text('No cocktails found'));
+                    }
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                              child: ListTile(
+                                title: Text(snapshot.data![index].name),
+                                leading: Image.network(
+                                    snapshot.data![index].imageURL),
+                              ),
+                              padding: EdgeInsets.only(top: 12, bottom: 12));
+                        });
+                  }
+                  if (snapshot.hasError) {
+                    return Center(child: Text('An error occurred'));
+                  }
+                  return const CircularProgressIndicator();
+                }),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -110,15 +111,6 @@ class CocktailDetail extends StatefulWidget {
       required this.name,
       required this.instructions,
       required this.imageURL});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String name;
   final String instructions;

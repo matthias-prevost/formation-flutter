@@ -6,7 +6,7 @@ Future<List<Cocktail>> fetchCocktails() async {
   final response = await http.get(
       Uri.parse('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a'));
 
-  if (response.statusCode == 200) {
+  if (response.statusCode == 200 && response.body.isNotEmpty) {
     final cocktails = jsonDecode(response.body)['drinks'] as List<dynamic>;
 
     final adaptedCocktails =
