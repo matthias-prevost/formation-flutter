@@ -1,9 +1,8 @@
 import 'dart:async';
-
+import 'package:go_router/go_router.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project0/infra/cocktails.dart';
-import 'package:project0/main.dart';
 
 class CocktailList extends StatefulWidget {
   const CocktailList({super.key});
@@ -63,14 +62,12 @@ class _CocktailListState extends State<CocktailList> {
                           Cocktail cocktail = snapshot.data![index];
                           return GestureDetector(
                               onTap: () {
-                                Navigator.push(context,
-                                    CupertinoPageRoute<CocktailDetailRoute>(
-                                        builder: (context) {
-                                  return CocktailDetailRoute(
-                                      name: cocktail.name,
-                                      instructions: cocktail.instructions,
-                                      imageURL: cocktail.imageURL);
-                                }));
+                                context.go(
+                                    Uri(path: '/cocktail', queryParameters: {
+                                  'name': cocktail.name,
+                                  'instructions': cocktail.instructions,
+                                  'imageURL': cocktail.imageURL,
+                                }).toString());
                               },
                               child: Padding(
                                 padding:
