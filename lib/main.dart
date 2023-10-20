@@ -1,6 +1,7 @@
 import 'package:project0/router.dart';
 import 'package:project0/widgets/CocktailDetail.widget.dart';
 import 'package:project0/widgets/CocktailList.widget.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
 
@@ -66,6 +67,10 @@ class CocktailDetailRoute extends StatelessWidget {
       body: Center(
           child: CocktailDetail(
               name: name, instructions: instructions, imageURL: imageURL)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.go('/'),
+        child: Text("Retour"),
+      ),
     );
   }
 }
