@@ -1,5 +1,7 @@
+import 'package:project0/router.dart';
 import 'package:project0/widgets/CocktailDetail.widget.dart';
 import 'package:project0/widgets/CocktailList.widget.dart';
+import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
 
@@ -15,13 +17,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: MaterialApp(
+      child: MaterialApp.router(
+        routerConfig: router,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: const MyHomePage(title: 'La banque des cocktails'),
       ),
     );
   }
@@ -65,6 +67,10 @@ class CocktailDetailRoute extends StatelessWidget {
       body: Center(
           child: CocktailDetail(
               name: name, instructions: instructions, imageURL: imageURL)),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.go('/'),
+        child: Text("Retour"),
+      ),
     );
   }
 }
