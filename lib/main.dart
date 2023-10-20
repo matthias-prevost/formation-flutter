@@ -1,7 +1,6 @@
-import 'dart:async';
+import 'package:project0/widgets/CocktailList.widget.dart';
 
 import 'package:flutter/material.dart';
-import 'package:project0/infra/cocktails.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,125 +39,6 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(child: CocktailList()),
-    );
-  }
-}
-
-class CocktailList extends StatefulWidget {
-  const CocktailList({super.key});
-
-  @override
-  State<CocktailList> createState() => _CocktailListState();
-}
-
-class _CocktailListState extends State<CocktailList> {
-  late Future<List<Cocktail>> futureCocktails;
-
-  Timer? _timer;
-
-  @override
-  void initState() {
-    super.initState();
-    futureCocktails = fetchCocktails();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (value) {
-                if (_timer?.isActive ?? false) _timer?.cancel();
-                _timer = Timer(const Duration(milliseconds: 500), () {
-                  setState(() {
-                    futureCocktails = fetchCocktails(value);
-                  });
-                });
-              },
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Chercher un cocktail',
-              ),
-            ),
-          ),
-          Expanded(
-            child: FutureBuilder(
-                future: futureCocktails,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: const CircularProgressIndicator());
-                  }
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.isEmpty) {
-                      return Center(child: Text('No cocktails found'));
-                    }
-                    return ListView.builder(
-                        itemCount: snapshot.data!.length,
-                        itemBuilder: (context, index) {
-                          return Container(
-                              child: ListTile(
-                                title: Text(snapshot.data![index].name),
-                                leading: Image.network(
-                                    snapshot.data![index].imageURL),
-                              ),
-                              padding: EdgeInsets.only(top: 12, bottom: 12));
-                        });
-                  }
-                  if (snapshot.hasError) {
-                    return Center(child: Text('An error occurred'));
-                  }
-                  return Center(child: const CircularProgressIndicator());
-                }),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class CocktailDetail extends StatefulWidget {
-  const CocktailDetail(
-      {super.key,
-      required this.name,
-      required this.instructions,
-      required this.imageURL});
-
-  final String name;
-  final String instructions;
-  final String imageURL;
-
-  @override
-  State<CocktailDetail> createState() => _CocktailDetailState();
-}
-
-class _CocktailDetailState extends State<CocktailDetail> {
-  @override
-  Widget build(BuildContext context) {
-    return Directionality(
-      textDirection: TextDirection.ltr,
-      child: Column(
-        children: <Widget>[
-          Padding(
-              padding: EdgeInsets.all(24),
-              child: Text(
-                widget.name,
-                style: Theme.of(context).textTheme.headlineLarge,
-                textAlign: TextAlign.center,
-              )),
-          Image.network(widget.imageURL),
-          Padding(
-            padding: EdgeInsets.all(16),
-            child: Text(
-              widget.instructions,
-              style: Theme.of(context).textTheme.bodySmall,
-            ),
-          )
-        ],
-      ),
     );
   }
 }
