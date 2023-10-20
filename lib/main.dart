@@ -67,6 +67,9 @@ class _CocktailListState extends State<CocktailList> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              onChanged: (value) => setState(() {
+                futureCocktails = fetchCocktails(value);
+              }),
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Chercher un cocktail',
@@ -77,6 +80,9 @@ class _CocktailListState extends State<CocktailList> {
             child: FutureBuilder(
                 future: futureCocktails,
                 builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: const CircularProgressIndicator());
+                  }
                   if (snapshot.hasData) {
                     if (snapshot.data!.isEmpty) {
                       return Center(child: Text('No cocktails found'));
@@ -96,7 +102,7 @@ class _CocktailListState extends State<CocktailList> {
                   if (snapshot.hasError) {
                     return Center(child: Text('An error occurred'));
                   }
-                  return const CircularProgressIndicator();
+                  return Center(child: const CircularProgressIndicator());
                 }),
           ),
         ],

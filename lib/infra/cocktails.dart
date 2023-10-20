@@ -2,12 +2,21 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-Future<List<Cocktail>> fetchCocktails() async {
-  final response = await http.get(
-      Uri.parse('https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a'));
+Future<List<Cocktail>> fetchCocktails([String? searchValue]) async {
+  http.Response response;
+  if (searchValue == null || searchValue.isEmpty) {
+    response = await http.get(Uri.parse(
+        'https://www.thecocktaildb.com/api/json/v1/1/search.php?f=a'));
+  } else {
+    response = await http.get(Uri.parse(
+        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=$searchValue'));
+  }
 
   if (response.statusCode == 200 && response.body.isNotEmpty) {
-    final cocktails = jsonDecode(response.body)['drinks'] as List<dynamic>;
+    final data = jsonDecode(response.body)['drinks'];
+    if (data == null) return [];
+
+    final cocktails = data as List<dynamic>;
 
     final adaptedCocktails =
         cocktails.map((cocktail) => Cocktail.fromJson(cocktail)).toList();
