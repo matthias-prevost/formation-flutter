@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:project0/infra/cocktails.dart';
+import 'package:project0/main.dart';
 
 class CocktailList extends StatefulWidget {
   const CocktailList({super.key});
@@ -58,13 +60,26 @@ class _CocktailListState extends State<CocktailList> {
                     return ListView.builder(
                         itemCount: snapshot.data!.length,
                         itemBuilder: (context, index) {
-                          return Container(
-                              child: ListTile(
-                                title: Text(snapshot.data![index].name),
-                                leading: Image.network(
-                                    snapshot.data![index].imageURL),
-                              ),
-                              padding: EdgeInsets.only(top: 12, bottom: 12));
+                          Cocktail cocktail = snapshot.data![index];
+                          return GestureDetector(
+                              onTap: () {
+                                Navigator.push(context,
+                                    CupertinoPageRoute<CocktailDetailRoute>(
+                                        builder: (context) {
+                                  return CocktailDetailRoute(
+                                      name: cocktail.name,
+                                      instructions: cocktail.instructions,
+                                      imageURL: cocktail.imageURL);
+                                }));
+                              },
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.only(top: 12, bottom: 12),
+                                child: ListTile(
+                                  title: Text(cocktail.name),
+                                  leading: Image.network(cocktail.imageURL),
+                                ),
+                              ));
                         });
                   }
                   if (snapshot.hasError) {

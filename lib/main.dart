@@ -1,3 +1,4 @@
+import 'package:project0/widgets/CocktailDetail.widget.dart';
 import 'package:project0/widgets/CocktailList.widget.dart';
 
 import 'package:flutter/material.dart';
@@ -39,6 +40,31 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: Center(child: CocktailList()),
+    );
+  }
+}
+
+class CocktailDetailRoute extends StatelessWidget {
+  const CocktailDetailRoute(
+      {super.key,
+      required this.name,
+      required this.instructions,
+      required this.imageURL});
+
+  final String name;
+  final String instructions;
+  final String imageURL;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(name),
+      ),
+      body: Center(
+          child: CocktailDetail(
+              name: name, instructions: instructions, imageURL: imageURL)),
     );
   }
 }
