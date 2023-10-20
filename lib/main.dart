@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:project0/infra/cocktails.dart';
 
@@ -52,6 +54,8 @@ class CocktailList extends StatefulWidget {
 class _CocktailListState extends State<CocktailList> {
   late Future<List<Cocktail>> futureCocktails;
 
+  Timer? _timer;
+
   @override
   void initState() {
     super.initState();
@@ -67,9 +71,14 @@ class _CocktailListState extends State<CocktailList> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
-              onChanged: (value) => setState(() {
-                futureCocktails = fetchCocktails(value);
-              }),
+              onChanged: (value) {
+                if (_timer?.isActive ?? false) _timer?.cancel();
+                _timer = Timer(const Duration(milliseconds: 500), () {
+                  setState(() {
+                    futureCocktails = fetchCocktails(value);
+                  });
+                });
+              },
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 labelText: 'Chercher un cocktail',
