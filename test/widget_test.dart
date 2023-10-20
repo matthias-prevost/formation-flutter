@@ -4,9 +4,10 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:project0/widgets/CocktailList.widget.dart';
+import 'package:project0/widgets/CocktailDetail.widget.dart';
 
 import 'widget_test.mocks.dart';
-import 'package:project0/main.dart';
 
 @GenerateMocks([http.Client])
 void main() {
