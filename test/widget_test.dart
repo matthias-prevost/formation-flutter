@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:http/http.dart' as http;
@@ -32,8 +33,8 @@ void main() {
             '{"drinks":[{"idDrink": "11007","strDrink": "Margarita","strInstructions": "Rub the rim of the glass with the lime slice to make the salt stick to it. Take care to moisten only the outer rim and sprinkle the salt on it. The salt should present to the lips of the imbiber and never mix into the cocktail. Shake the other ingredients with ice, then carefully pour into the glass.","strDrinkThumb": "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg"}]}',
             200));
 
-    await mockNetworkImagesFor(
-        () async => await widgetTester.pumpWidget(const CocktailList()));
+    await widgetTester
+        .pumpWidget(MaterialApp(home: Scaffold(body: const CocktailList())));
     await widgetTester.pumpAndSettle();
 
     expect(find.text('An error occurred'), findsOneWidget);
