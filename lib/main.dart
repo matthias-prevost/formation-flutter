@@ -1,12 +1,16 @@
+import 'package:project0/models/Favorites.dart';
 import 'package:project0/router.dart';
+import 'package:project0/widgets/AddToFav.widget.dart';
 import 'package:project0/widgets/CocktailDetail.widget.dart';
 import 'package:project0/widgets/CocktailList.widget.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => FavoritesModel(), child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -47,26 +51,23 @@ class MyHomePage extends StatelessWidget {
 }
 
 class CocktailDetailRoute extends StatelessWidget {
-  const CocktailDetailRoute(
-      {super.key,
-      required this.name,
-      required this.instructions,
-      required this.imageURL});
+  const CocktailDetailRoute({super.key, required this.id});
 
-  final String name;
-  final String instructions;
-  final String imageURL;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(name),
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: Text("Détails du cocktail"),
+          actions: [AddToFav(id: id)]),
+      body: SingleChildScrollView(
+        child: Center(
+            child: CocktailDetail(
+          id: id,
+        )),
       ),
-      body: Center(
-          child: CocktailDetail(
-              name: name, instructions: instructions, imageURL: imageURL)),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.go('/'),
         child: Text("Retour"),

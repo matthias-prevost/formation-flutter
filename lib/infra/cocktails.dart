@@ -27,6 +27,27 @@ Future<List<Cocktail>> fetchCocktails([String? searchValue]) async {
   }
 }
 
+Future<Cocktail> fetchCocktail(String id) async {
+  final response = await http.get(Uri.parse(
+      'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=$id'));
+
+  if (response.statusCode == 200 && response.body.isNotEmpty) {
+    final data = jsonDecode(response.body)['drinks'][0];
+    if (data == null) {
+      throw Exception('Failed to load cocktails');
+    }
+    ;
+
+    final cocktail = data as dynamic;
+
+    final adaptedCocktail = Cocktail.fromJson(cocktail);
+
+    return adaptedCocktail;
+  } else {
+    throw Exception('Failed to load cocktails');
+  }
+}
+
 class Cocktail {
   final String id;
   final String name;
@@ -41,7 +62,7 @@ class Cocktail {
 
   factory Cocktail.fromJson(dynamic json) {
     return Cocktail(
-      id: json['idDrink'].toString(),
+      id: json['idDrink'] as String,
       name: json['strDrink'].toString(),
       imageURL: json['strDrinkThumb'].toString(),
       instructions: json['strInstructions'].toString(),
