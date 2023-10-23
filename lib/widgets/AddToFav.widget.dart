@@ -9,10 +9,10 @@ class AddToFav extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    if (ref.watch(myNotifierProvider).isFavorite(id)) {
+    if (ref.watch(favoriteNotifier).isFavorite(id)) {
       return IconButton(
           onPressed: () {
-            ref.watch(myNotifierProvider).remove(id);
+            ref.watch(favoriteNotifier).remove(id);
           },
           icon: Icon(
             Icons.favorite,
@@ -22,7 +22,7 @@ class AddToFav extends ConsumerWidget {
 
     return IconButton(
       onPressed: () {
-        ref.watch(myNotifierProvider).add(id);
+        ref.watch(favoriteNotifier).add(id);
       },
       icon: Icon(Icons.favorite_border),
     );
