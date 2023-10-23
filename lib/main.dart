@@ -1,4 +1,4 @@
-import 'package:project0/models/Favorites.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project0/router.dart';
 import 'package:project0/widgets/AddToFav.widget.dart';
 import 'package:project0/widgets/CocktailDetail.widget.dart';
@@ -6,11 +6,9 @@ import 'package:project0/widgets/CocktailList.widget.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() {
-  runApp(ChangeNotifierProvider(
-      create: (context) => FavoritesModel(), child: const MyApp()));
+  runApp(ProviderScope(child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
