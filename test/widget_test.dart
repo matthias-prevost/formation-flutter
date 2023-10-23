@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:network_image_mock/network_image_mock.dart';
 import 'package:http/http.dart' as http;
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -13,17 +12,15 @@ import 'widget_test.mocks.dart';
 void main() {
   testWidgets('My widget displays a title, image and instructions',
       (WidgetTester tester) async {
-    await mockNetworkImagesFor(() async => await tester.pumpWidget(MaterialApp(
-            home: Scaffold(
-                body: const CocktailDetail(
-          name: "Margarita",
-          instructions: "Lorem ipsum...",
-          imageURL:
-              "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
-        )))));
+    final client = MockClient();
+    when(client.get(any)).thenAnswer((_) async => http.Response('', 200));
 
-    expect(find.text('Margarita'), findsOneWidget);
-    expect(find.text('Lorem ipsum...'), findsOneWidget);
+    await tester.pumpWidget(
+        MaterialApp(home: Scaffold(body: const CocktailDetail(id: "1"))));
+
+    await tester.pumpAndSettle();
+
+    expect(find.text('An error occurred'), findsOneWidget);
   });
 
   testWidgets('My list of cocktails is displayed', (widgetTester) async {

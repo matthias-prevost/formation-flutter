@@ -47,27 +47,22 @@ class MyHomePage extends StatelessWidget {
 }
 
 class CocktailDetailRoute extends StatelessWidget {
-  const CocktailDetailRoute(
-      {super.key,
-      required this.name,
-      required this.instructions,
-      required this.imageURL});
+  const CocktailDetailRoute({super.key, required this.id});
 
-  final String name;
-  final String instructions;
-  final String imageURL;
+  final String id;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(name),
+        title: Text("Détails du cocktail"),
       ),
       body: SingleChildScrollView(
         child: Center(
             child: CocktailDetail(
-                name: name, instructions: instructions, imageURL: imageURL)),
+          id: id,
+        )),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.go('/'),

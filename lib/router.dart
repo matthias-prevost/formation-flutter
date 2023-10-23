@@ -11,15 +11,12 @@ final router = GoRouter(
           GoRoute(
             path: 'cocktail',
             builder: (context, state) {
-              final name = state.uri.queryParameters['name'];
-              final instructions = state.uri.queryParameters['instructions'];
-              final imageURL = state.uri.queryParameters['imageURL'];
-              if (name == null || instructions == null || imageURL == null) {
+              final id = state.uri.queryParameters['id'];
+              if (id == null) {
                 return const Text('Missing parameters');
               }
 
-              return CocktailDetailRoute(
-                  name: name, instructions: instructions, imageURL: imageURL);
+              return CocktailDetailRoute(id: id);
             },
           )
         ]),

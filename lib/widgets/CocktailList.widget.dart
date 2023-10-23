@@ -73,9 +73,7 @@ class _CocktailListState extends State<CocktailList> {
                               onPressed: () {
                                 context.go(
                                     Uri(path: '/cocktail', queryParameters: {
-                                  'name': cocktail.name,
-                                  'instructions': cocktail.instructions,
-                                  'imageURL': cocktail.imageURL,
+                                  'id': cocktail.id,
                                 }).toString());
                               },
                               child: ListTile(
