@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FavoritesModel extends ChangeNotifier {
   final List<String> _itemIds = [];
@@ -21,3 +22,7 @@ class FavoritesModel extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+final myNotifierProvider = ChangeNotifierProvider<FavoritesModel>((ref) {
+  return FavoritesModel();
+});
