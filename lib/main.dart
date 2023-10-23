@@ -64,9 +64,11 @@ class CocktailDetailRoute extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(name),
       ),
-      body: Center(
-          child: CocktailDetail(
-              name: name, instructions: instructions, imageURL: imageURL)),
+      body: SingleChildScrollView(
+        child: Center(
+            child: CocktailDetail(
+                name: name, instructions: instructions, imageURL: imageURL)),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => context.go('/'),
         child: Text("Retour"),

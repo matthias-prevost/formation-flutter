@@ -13,13 +13,14 @@ import 'widget_test.mocks.dart';
 void main() {
   testWidgets('My widget displays a title, image and instructions',
       (WidgetTester tester) async {
-    await mockNetworkImagesFor(
-        () async => await tester.pumpWidget(const CocktailDetail(
-              name: "Margarita",
-              instructions: "Lorem ipsum...",
-              imageURL:
-                  "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
-            )));
+    await mockNetworkImagesFor(() async => await tester.pumpWidget(MaterialApp(
+            home: Scaffold(
+                body: const CocktailDetail(
+          name: "Margarita",
+          instructions: "Lorem ipsum...",
+          imageURL:
+              "https://www.thecocktaildb.com/images/media/drink/5noda61589575158.jpg",
+        )))));
 
     expect(find.text('Margarita'), findsOneWidget);
     expect(find.text('Lorem ipsum...'), findsOneWidget);
