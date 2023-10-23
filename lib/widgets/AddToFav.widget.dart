@@ -16,17 +16,22 @@ class _AddToFavState extends State<AddToFav> {
   Widget build(BuildContext context) {
     return Consumer<FavoritesModel>(
       builder: (context, favorites, child) {
+        if (favorites.isFavorite(widget.id)) {
+          return IconButton(
+              onPressed: () {
+                favorites.remove(widget.id);
+              },
+              icon: Icon(
+                Icons.favorite,
+                color: Colors.red,
+              ));
+        }
+
         return IconButton(
           onPressed: () {
-            if (favorites.isFavorite(widget.id))
-              favorites.remove(widget.id);
-            else {
-              favorites.add(widget.id);
-            }
+            favorites.add(widget.id);
           },
-          icon: favorites.isFavorite(widget.id)
-              ? Icon(Icons.favorite)
-              : Icon(Icons.favorite_border),
+          icon: Icon(Icons.favorite_border),
         );
       },
     );
