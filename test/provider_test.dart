@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:project0/models/Favorites.dart';
+import 'package:project0/models/favorites.dart';
 
 import 'utility.dart';
 

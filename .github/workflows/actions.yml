@@ -1,5 +1,5 @@
 name: GitHub Actions Demo
-run-name: ${{ github.actor }} is running Flutter Actions 🚀🐦
+run-name: Flutter Actions 🚀🐦
 on: [push]
 jobs:
   Explore-GitHub-Actions:
