@@ -5,6 +5,7 @@ class FavoritesNotifier extends ChangeNotifier {
   final List<String> _itemIds = [];
 
   int get numberOfFavorites => _itemIds.length;
+  List<String> get itemIds => _itemIds;
 
   bool isFavorite(String id) {
     return _itemIds.contains(id);

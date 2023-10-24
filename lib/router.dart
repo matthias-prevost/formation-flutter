@@ -6,7 +6,7 @@ final router = GoRouter(
   routes: [
     GoRoute(
         path: '/',
-        builder: (context, state) => MyHomePage(title: 'La BDD des cocktails'),
+        builder: (context, state) => NavigationExample(),
         routes: [
           GoRoute(
             path: 'cocktail',

@@ -6,33 +6,87 @@ import 'package:project0/widgets/CocktailList.widget.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
+import 'package:project0/widgets/FavCounter.widget.dart';
+import 'package:project0/widgets/Favorites.widget.dart';
 
 void main() {
-  runApp(ProviderScope(child: const MyApp()));
+  runApp(ProviderScope(child: const NavigationBarApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class NavigationBarApp extends StatelessWidget {
+  const NavigationBarApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: MaterialApp.router(
-        routerConfig: router,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
+    return MaterialApp.router(
+      routerConfig: router,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
       ),
     );
   }
 }
 
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key, required this.title});
+class NavigationExample extends StatefulWidget {
+  const NavigationExample({super.key});
+
+  @override
+  State<NavigationExample> createState() => _NavigationExampleState();
+}
+
+class _NavigationExampleState extends State<NavigationExample> {
+  int currentPageIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: <Widget>[
+        CocktailHome(title: "Cocktails"),
+        Favorites(),
+      ][currentPageIndex],
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        indicatorColor: Theme.of(context).colorScheme.inversePrimary,
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(
+              Icons.home,
+              color: Colors.deepPurple,
+            ),
+            icon: Icon(Icons.home_outlined),
+            label: 'Accueil',
+          ),
+          NavigationDestination(
+            selectedIcon: Stack(
+              alignment: Alignment(3, -3),
+              children: <Widget>[
+                Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+                FavCounter()
+              ],
+            ),
+            icon: Stack(
+              alignment: Alignment(3, -3),
+              children: <Widget>[Icon(Icons.favorite_outline), FavCounter()],
+            ),
+            label: 'Favoris',
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CocktailHome extends StatelessWidget {
+  const CocktailHome({super.key, required this.title});
 
   final String title;
 
