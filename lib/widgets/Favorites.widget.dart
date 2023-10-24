@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:project0/infra/cocktails.dart';
 import 'package:project0/models/Favorites.dart';
 
@@ -30,8 +31,9 @@ class FavoritesState extends ConsumerState<Favorites> {
         future: favorites,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data!.isEmpty)
+            if (snapshot.data!.isEmpty) {
               return Center(child: Text('Aucun favoris'));
+            }
             return ListView.builder(
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
@@ -47,7 +49,11 @@ class FavoritesState extends ConsumerState<Favorites> {
                                     RoundedRectangleBorder>(
                                 RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(4.0)))),
-                        onPressed: () {},
+                        onPressed: () {
+                          context.go(Uri(path: '/cocktail', queryParameters: {
+                            'id': cocktail.id,
+                          }).toString());
+                        },
                         child: ListTile(
                           contentPadding: EdgeInsets.all(0),
                           title: Text(cocktail.name),
