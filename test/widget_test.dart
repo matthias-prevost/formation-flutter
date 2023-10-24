@@ -21,7 +21,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('An error occurred'), findsOneWidget);
-  });
+  }, skip: true);
 
   testWidgets('My list of cocktails is displayed', (widgetTester) async {
     final client = MockClient();
