@@ -6,6 +6,7 @@ import 'package:project0/widgets/CocktailList.widget.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
+import 'package:project0/widgets/FavCounter.widget.dart';
 import 'package:project0/widgets/Favorites.widget.dart';
 
 void main() {
@@ -62,11 +63,20 @@ class _NavigationExampleState extends State<NavigationExample> {
             label: 'Accueil',
           ),
           NavigationDestination(
-            selectedIcon: Icon(
-              Icons.favorite,
-              color: Colors.red,
+            selectedIcon: Stack(
+              alignment: Alignment(3, -3),
+              children: <Widget>[
+                Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                ),
+                FavCounter()
+              ],
             ),
-            icon: Icon(Icons.favorite_outline),
+            icon: Stack(
+              alignment: Alignment(3, -3),
+              children: <Widget>[Icon(Icons.favorite_outline), FavCounter()],
+            ),
             label: 'Favoris',
           ),
         ],

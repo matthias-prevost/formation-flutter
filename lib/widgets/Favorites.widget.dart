@@ -22,6 +22,12 @@ class FavoritesState extends ConsumerState<Favorites> {
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(favoriteNotifier, (previous, next) {
+      setState(() {
+        favorites = getFavorites(next.itemIds);
+      });
+    });
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.red[200],
