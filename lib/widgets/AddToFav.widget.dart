@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project0/models/Favorites.dart';
+import 'package:project0/models/favorites.dart';
 
 class AddToFav extends ConsumerWidget {
   const AddToFav({Key? key, required this.id}) : super(key: key);

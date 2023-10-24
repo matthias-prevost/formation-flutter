@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project0/models/Favorites.dart';
+import 'package:project0/models/favorites.dart';
 
 class FavCounter extends ConsumerStatefulWidget {
   const FavCounter({super.key});

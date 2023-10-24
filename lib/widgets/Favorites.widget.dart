@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:project0/infra/cocktails.dart';
-import 'package:project0/models/Favorites.dart';
+import 'package:project0/models/favorites.dart';
 import 'package:project0/widgets/ListItem.widget.dart';
 
 class Favorites extends ConsumerStatefulWidget {
