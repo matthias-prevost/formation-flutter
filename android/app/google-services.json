@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "430358215204",
+    "project_id": "matthiasp-cocktails",
+    "storage_bucket": "matthiasp-cocktails.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:430358215204:android:fdff53f01b1837a7e9f6b1",
+        "android_client_info": {
+          "package_name": "com.example.project0"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBi6PsJMHP8a63dDrf-FlXpZiqJDbTp14E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
