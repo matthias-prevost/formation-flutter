@@ -48,6 +48,11 @@ Future<Cocktail> fetchCocktail(String id) async {
   }
 }
 
+Future<List<Cocktail>> getFavorites(List<String> ids) async {
+  final cocktails = await Future.wait(ids.map((id) => fetchCocktail(id)));
+  return cocktails;
+}
+
 class Cocktail {
   final String id;
   final String name;
