@@ -6,6 +6,7 @@ import 'package:project0/widgets/CocktailList.widget.dart';
 import 'package:go_router/go_router.dart';
 
 import 'package:flutter/material.dart';
+import 'package:project0/widgets/Favorites.widget.dart';
 
 void main() {
   runApp(ProviderScope(child: const NavigationBarApp()));
@@ -16,7 +17,13 @@ class NavigationBarApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: NavigationExample());
+    return MaterialApp.router(
+      routerConfig: router,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+    );
   }
 }
 
@@ -33,6 +40,10 @@ class _NavigationExampleState extends State<NavigationExample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: <Widget>[
+        CocktailHome(title: "Cocktails"),
+        Favorites(),
+      ][currentPageIndex],
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (int index) {
           setState(() {
@@ -59,34 +70,6 @@ class _NavigationExampleState extends State<NavigationExample> {
             label: 'Favoris',
           ),
         ],
-      ),
-      body: <Widget>[
-        HomePage(),
-        Container(
-          color: Colors.red[100],
-          alignment: Alignment.center,
-          child: const Text('Mes favoris'),
-        ),
-      ][currentPageIndex],
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: MaterialApp.router(
-        routerConfig: router,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
       ),
     );
   }
