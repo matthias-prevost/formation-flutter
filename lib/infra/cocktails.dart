@@ -36,7 +36,6 @@ Future<Cocktail> fetchCocktail(String id) async {
     if (data == null) {
       throw Exception('Failed to load cocktails');
     }
-    ;
 
     final cocktail = data as dynamic;
 
