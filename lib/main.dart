@@ -1,5 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:project0/router.dart';
 import 'package:project0/widgets/AddToFav.widget.dart';
 import 'package:project0/widgets/CocktailDetail.widget.dart';
 import 'package:project0/widgets/CocktailList.widget.dart';
@@ -10,6 +10,7 @@ import 'package:project0/widgets/FavCounter.widget.dart';
 import 'package:project0/widgets/Favorites.widget.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:project0/app.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -18,22 +19,7 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
 
-  runApp(ProviderScope(child: const NavigationBarApp()));
-}
-
-class NavigationBarApp extends StatelessWidget {
-  const NavigationBarApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routerConfig: router,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-    );
-  }
+  runApp(ProviderScope(child: const App()));
 }
 
 class NavigationExample extends StatefulWidget {
@@ -104,6 +90,15 @@ class CocktailHome extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(title),
+        actions: [
+          IconButton(
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              context.go("/login");
+            },
+            icon: Icon(Icons.logout),
+          ),
+        ],
       ),
       body: Center(child: CocktailList()),
     );

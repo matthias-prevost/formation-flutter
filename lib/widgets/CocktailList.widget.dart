@@ -28,6 +28,7 @@ class _CocktailListState extends State<CocktailList> {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextField(
+            onTapOutside: (event) => FocusScope.of(context).unfocus(),
             onChanged: (value) {
               if (_timer?.isActive ?? false) _timer?.cancel();
               _timer = Timer(const Duration(milliseconds: 500), () {
